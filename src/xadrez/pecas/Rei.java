@@ -14,7 +14,7 @@ public class Rei extends PeçaXadrez{
 	@Override
 	
 	public String toString() {
-		return "R";
+		return "K";
 	}
 
 }

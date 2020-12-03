@@ -29,5 +29,7 @@ public class PartidaXadrez {
 		tabuleiro.colocarPeça(new Rei(tabuleiro, Cor.PRETO), new Posicao(0,4));
 		tabuleiro.colocarPeça(new Rei(tabuleiro, Cor.BRANCO), new Posicao(7,4));
 	}
+	
+
 
 }
