@@ -1,6 +1,8 @@
 package xadrez;
 
-public class ChessException extends RuntimeException {
+import jogodetabuleiro.BoardException;
+
+public class ChessException extends BoardException {
 
 	/**
 	 * 
