@@ -51,16 +51,30 @@ public class IU {
 		for (int i = 0; i < peças.length; i++) {
 			System.out.print((8 - i) + " ");
 			for (int j = 0; j < peças.length; j++) {
-				imprimirPeça(peças[i][j]);
+				imprimirPeça(peças[i][j], false);
+			}
+			System.out.println();
+		}
+		System.out.println("  a b c d e f g h");
+	}
+	
+	public static void imprimirTabuleiro(PeçaXadrez[][] peças, boolean[][] possiveisMovimentos) {
+		for (int i = 0; i < peças.length; i++) {
+			System.out.print((8 - i) + " ");
+			for (int j = 0; j < peças.length; j++) {
+				imprimirPeça(peças[i][j], possiveisMovimentos[i][j]);
 			}
 			System.out.println();
 		}
 		System.out.println("  a b c d e f g h");
 	}
 
-	private static void imprimirPeça(PeçaXadrez peça) {
+	private static void imprimirPeça(PeçaXadrez peça, boolean fundo) {
+		if (fundo == true) {
+			System.out.print(ANSI_GREEN_BACKGROUND);
+		}
 		if (peça == null) {
-			System.out.print("-");
+			System.out.print("-" + ANSI_RESET);
 		} else {
 			if (peça.getCor() == Cor.BRANCO) {
 				System.out.print(ANSI_WHITE + peça + ANSI_RESET);

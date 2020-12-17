@@ -60,6 +60,12 @@ public class PartidaXadrez {
 		tabuleiro.colocarPeça(peça, new PosicaoXadrez(coluna, linha).paraPosicao());
 	}
 	
+	public boolean[][] possiveisMovimentos(PosicaoXadrez posicaoOrigem) {
+		Posicao posicao = posicaoOrigem.paraPosicao();
+		validarPosicaoOrigem(posicao);
+		return tabuleiro.peça(posicao).possiveisMovimentos();
+	}
+	
 	private void iniciarPartida() {
 		colocarNovaPeça('c', 1, new Torre(tabuleiro, Cor.BRANCO));
         colocarNovaPeça('c', 2, new Torre(tabuleiro, Cor.BRANCO));
