@@ -29,6 +29,7 @@ public class PartidaXadrez {
 		Posicao origem = posicaoOrigem.paraPosicao();
 		Posicao destino = posicaoDestino.paraPosicao();
 		validarPosicaoOrigem(origem);
+		validarPosicaoDestino(origem, destino);
 		Peça peçaCapturada = fazerMover(origem, destino);
 		return (PeçaXadrez) peçaCapturada;
 	}
@@ -39,6 +40,12 @@ public class PartidaXadrez {
 		}
 		if (!tabuleiro.peça(posicao).existeMovimentoPossivel()) {
 			throw new ChessException("Não existe movimentos possíveis para a peça escolhida.");
+		}
+	}
+	
+	private void validarPosicaoDestino(Posicao origem, Posicao destino) {
+		if (!tabuleiro.peça(origem).movimentoPossivel(destino)) {
+			throw new ChessException("O movimento intencionado é impossível.");
 		}
 	}
 	
