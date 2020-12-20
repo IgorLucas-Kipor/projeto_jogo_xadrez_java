@@ -9,10 +9,22 @@ import xadrez.pecas.Torre;
 public class PartidaXadrez {
 	
 	private Tabuleiro tabuleiro;
+	private int turno;
+	private Cor jogadorAtual;
 	
 	public PartidaXadrez() {
 		tabuleiro = new Tabuleiro(8, 8);
+		turno = 1;
+		jogadorAtual = Cor.BRANCO;
 		iniciarPartida();
+	}
+	
+	public int getTurno() {
+		return turno;
+	}
+	
+	public Cor getJogadorAtual() {
+		return jogadorAtual;
 	}
 	
 	public PeçaXadrez[][] pegarPeças() {
@@ -31,12 +43,16 @@ public class PartidaXadrez {
 		validarPosicaoOrigem(origem);
 		validarPosicaoDestino(origem, destino);
 		Peça peçaCapturada = fazerMover(origem, destino);
+		proximoTurno();
 		return (PeçaXadrez) peçaCapturada;
 	}
 	
 	private void validarPosicaoOrigem(Posicao posicao) {
 		if (!tabuleiro.haUmaPeça(posicao)) {
 			throw new ChessException("Não existe peça na posição de origem.");
+		}
+		if (jogadorAtual != ((PeçaXadrez)tabuleiro.peça(posicao)).getCor()) {
+			throw new ChessException("A peça escolhida não é sua.");
 		}
 		if (!tabuleiro.peça(posicao).existeMovimentoPossivel()) {
 			throw new ChessException("Não existe movimentos possíveis para a peça escolhida.");
@@ -47,6 +63,11 @@ public class PartidaXadrez {
 		if (!tabuleiro.peça(origem).movimentoPossivel(destino)) {
 			throw new ChessException("O movimento intencionado é impossível.");
 		}
+	}
+	
+	private void proximoTurno() {
+		turno++;
+		jogadorAtual = (jogadorAtual == Cor.BRANCO) ? Cor.PRETO : Cor.BRANCO;
 	}
 	
 	private Peça fazerMover(Posicao origem, Posicao destino) {
