@@ -1,7 +1,10 @@
 package aplicacao;
 
+import java.util.Arrays;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 import xadrez.Cor;
 import xadrez.PartidaXadrez;
@@ -44,15 +47,17 @@ public class IU {
 			int linha = Integer.parseInt(s.substring(1));
 			return new PosicaoXadrez(coluna, linha);
 		} catch (RuntimeException e) {
-			throw new InputMismatchException("Erro lendo posição de xadrez. Valores válidos são de A1 até H8.");
+			throw new InputMismatchException("Error reading chess position: valid values go from a1 to h8.");
 		}
 	}
 	
-	public static void imprimirPartida(PartidaXadrez partidaXadrez) {
+	public static void imprimirPartida(PartidaXadrez partidaXadrez, List<PeçaXadrez> capturadas) {
 		imprimirTabuleiro(partidaXadrez.pegarPeças());
 		System.out.println();
-		System.out.println("Turno: " + partidaXadrez.getTurno());
-		System.out.println("Esperando jogador " + partidaXadrez.getJogadorAtual());
+		imprimirPeçasCapturadas(capturadas);
+		System.out.println();
+		System.out.println("Turn: " + partidaXadrez.getTurno());
+		System.out.println("Waiting player: " + partidaXadrez.getJogadorAtual());
 	}
 
 	public static void imprimirTabuleiro(PeçaXadrez[][] peças) {
@@ -91,6 +96,20 @@ public class IU {
 			}
 		}
 		System.out.print(" ");
+	}
+	
+	private static void imprimirPeçasCapturadas(List<PeçaXadrez> capturada) {
+		List<PeçaXadrez> branca = capturada.stream().filter(x -> x.getCor() == Cor.BRANCO).collect(Collectors.toList());
+		List<PeçaXadrez> preta = capturada.stream().filter(x -> x.getCor() == Cor.PRETO).collect(Collectors.toList());
+		System.out.println("Captured pieces: ");
+		System.out.println("White: ");
+		System.out.println(ANSI_WHITE);
+		System.out.println(Arrays.toString(branca.toArray()));
+		System.out.println(ANSI_RESET);
+		System.out.println("Black: ");
+		System.out.println(ANSI_YELLOW);
+		System.out.println(Arrays.toString(preta.toArray()));
+		System.out.println(ANSI_RESET);
 	}
 
 }

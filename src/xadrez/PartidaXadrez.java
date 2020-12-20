@@ -1,5 +1,8 @@
 package xadrez;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jogodetabuleiro.Peça;
 import jogodetabuleiro.Posicao;
 import jogodetabuleiro.Tabuleiro;
@@ -11,6 +14,9 @@ public class PartidaXadrez {
 	private Tabuleiro tabuleiro;
 	private int turno;
 	private Cor jogadorAtual;
+	
+	private List<Peça> peçasNoTabuleiro = new ArrayList<>();
+	private List<Peça> peçasCapturadas = new ArrayList<>();
 	
 	public PartidaXadrez() {
 		tabuleiro = new Tabuleiro(8, 8);
@@ -49,19 +55,19 @@ public class PartidaXadrez {
 	
 	private void validarPosicaoOrigem(Posicao posicao) {
 		if (!tabuleiro.haUmaPeça(posicao)) {
-			throw new ChessException("Não existe peça na posição de origem.");
+			throw new ChessException("There is no such piece at origin position.");
 		}
 		if (jogadorAtual != ((PeçaXadrez)tabuleiro.peça(posicao)).getCor()) {
-			throw new ChessException("A peça escolhida não é sua.");
+			throw new ChessException("Chosen piece is not yours.");
 		}
 		if (!tabuleiro.peça(posicao).existeMovimentoPossivel()) {
-			throw new ChessException("Não existe movimentos possíveis para a peça escolhida.");
+			throw new ChessException("There is no possible movement for chosen piece.");
 		}
 	}
 	
 	private void validarPosicaoDestino(Posicao origem, Posicao destino) {
 		if (!tabuleiro.peça(origem).movimentoPossivel(destino)) {
-			throw new ChessException("O movimento intencionado é impossível.");
+			throw new ChessException("The selected movement is impossible.");
 		}
 	}
 	
@@ -73,12 +79,16 @@ public class PartidaXadrez {
 	private Peça fazerMover(Posicao origem, Posicao destino) {
 		Peça p = tabuleiro.removerPeça(origem);
 		Peça peçaCapturada = tabuleiro.removerPeça(destino);
+		if (peçaCapturada != null) {
+			peçasCapturadas.add(peçaCapturada);
+		}
 		tabuleiro.colocarPeça(p, destino);
 		return peçaCapturada;
 	}
 	
 	private void colocarNovaPeça(char coluna, int linha, PeçaXadrez peça) {
 		tabuleiro.colocarPeça(peça, new PosicaoXadrez(coluna, linha).paraPosicao());
+		peçasNoTabuleiro.add(peça);
 	}
 	
 	public boolean[][] possiveisMovimentos(PosicaoXadrez posicaoOrigem) {
