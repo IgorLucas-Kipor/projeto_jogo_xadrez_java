@@ -58,6 +58,9 @@ public class IU {
 		System.out.println();
 		System.out.println("Turn: " + partidaXadrez.getTurno());
 		System.out.println("Waiting player: " + partidaXadrez.getJogadorAtual());
+		if (partidaXadrez.getXeque()) {
+			System.out.println("CHECK!");
+		}
 	}
 
 	public static void imprimirTabuleiro(PeçaXadrez[][] peças) {
