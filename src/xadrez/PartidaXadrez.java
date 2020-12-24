@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import jogodetabuleiro.Peça;
 import jogodetabuleiro.Posicao;
 import jogodetabuleiro.Tabuleiro;
+import xadrez.pecas.Peao;
 import xadrez.pecas.Rei;
 import xadrez.pecas.Torre;
 
@@ -192,12 +193,29 @@ public class PartidaXadrez {
 	}
 	
 	private void iniciarPartida() {
-		colocarNovaPeça('h', 7, new Torre(tabuleiro, Cor.BRANCO));
+		colocarNovaPeça('a', 1, new Torre(tabuleiro, Cor.BRANCO));
         colocarNovaPeça('e', 1, new Rei(tabuleiro, Cor.BRANCO));
-        colocarNovaPeça('d', 1, new Torre(tabuleiro, Cor.BRANCO));
+        colocarNovaPeça('h', 1, new Torre(tabuleiro, Cor.BRANCO));
+        colocarNovaPeça('a', 2, new Peao(tabuleiro, Cor.BRANCO));
+        colocarNovaPeça('b', 2, new Peao(tabuleiro, Cor.BRANCO));
+        colocarNovaPeça('c', 2, new Peao(tabuleiro, Cor.BRANCO));
+        colocarNovaPeça('d', 2, new Peao(tabuleiro, Cor.BRANCO));
+        colocarNovaPeça('e', 2, new Peao(tabuleiro, Cor.BRANCO));
+        colocarNovaPeça('f', 2, new Peao(tabuleiro, Cor.BRANCO));
+        colocarNovaPeça('g', 2, new Peao(tabuleiro, Cor.BRANCO));
+        colocarNovaPeça('h', 2, new Peao(tabuleiro, Cor.BRANCO));
 
-        colocarNovaPeça('b', 8, new Torre(tabuleiro, Cor.PRETO));
-        colocarNovaPeça('a', 8, new Rei(tabuleiro, Cor.PRETO));
+        colocarNovaPeça('a', 8, new Torre(tabuleiro, Cor.PRETO));
+        colocarNovaPeça('e', 8, new Rei(tabuleiro, Cor.PRETO));
+        colocarNovaPeça('h', 8, new Torre(tabuleiro, Cor.PRETO));
+        colocarNovaPeça('a', 7, new Peao(tabuleiro, Cor.PRETO));
+        colocarNovaPeça('b', 7, new Peao(tabuleiro, Cor.PRETO));
+        colocarNovaPeça('c', 7, new Peao(tabuleiro, Cor.PRETO));
+        colocarNovaPeça('d', 7, new Peao(tabuleiro, Cor.PRETO));
+        colocarNovaPeça('e', 7, new Peao(tabuleiro, Cor.PRETO));
+        colocarNovaPeça('f', 7, new Peao(tabuleiro, Cor.PRETO));
+        colocarNovaPeça('g', 7, new Peao(tabuleiro, Cor.PRETO));
+        colocarNovaPeça('h', 7, new Peao(tabuleiro, Cor.PRETO));
 	}
 	
 
