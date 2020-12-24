@@ -57,9 +57,14 @@ public class IU {
 		imprimirPeçasCapturadas(capturadas);
 		System.out.println();
 		System.out.println("Turn: " + partidaXadrez.getTurno());
-		System.out.println("Waiting player: " + partidaXadrez.getJogadorAtual());
-		if (partidaXadrez.getXeque()) {
-			System.out.println("CHECK!");
+		if (!partidaXadrez.getXequeMate()) {
+			System.out.println("Waiting player: " + partidaXadrez.getJogadorAtual());
+			if (partidaXadrez.getXeque()) {
+				System.out.println("CHECK!");
+			}	
+		} else {
+			System.out.println("CHECKMATE!");
+			System.out.println("Winner: "+ partidaXadrez.getJogadorAtual());
 		}
 	}
 
@@ -86,7 +91,7 @@ public class IU {
 	}
 
 	private static void imprimirPeça(PeçaXadrez peça, boolean fundo) {
-		if (fundo == true) {
+		if (fundo) {
 			System.out.print(ANSI_GREEN_BACKGROUND);
 		}
 		if (peça == null) {
@@ -105,11 +110,11 @@ public class IU {
 		List<PeçaXadrez> branca = capturada.stream().filter(x -> x.getCor() == Cor.BRANCO).collect(Collectors.toList());
 		List<PeçaXadrez> preta = capturada.stream().filter(x -> x.getCor() == Cor.PRETO).collect(Collectors.toList());
 		System.out.println("Captured pieces: ");
-		System.out.println("White: ");
+		System.out.print("White: ");
 		System.out.println(ANSI_WHITE);
 		System.out.println(Arrays.toString(branca.toArray()));
 		System.out.println(ANSI_RESET);
-		System.out.println("Black: ");
+		System.out.print("Black: ");
 		System.out.println(ANSI_YELLOW);
 		System.out.println(Arrays.toString(preta.toArray()));
 		System.out.println(ANSI_RESET);

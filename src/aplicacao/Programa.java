@@ -13,48 +13,46 @@ import xadrez.PosicaoXadrez;
 public class Programa {
 
 	public static void main(String[] args) {
-		
+
 		Scanner sc = new Scanner(System.in);
-		
+
 		PartidaXadrez partidaXadrez = new PartidaXadrez();
-		
+
 		List<PeçaXadrez> capturadas = new ArrayList<>();
-		
-		
-		
-		
-		while(true) {
+
+		while (!partidaXadrez.getXequeMate()) {
 			try {
-			IU.limparTela();
-			IU.imprimirPartida(partidaXadrez, capturadas);
-			System.out.println();
-			System.out.print("Origin: ");
-			PosicaoXadrez origem = IU.lerPosicaoXadrez(sc);
-			
-			boolean[][] possiveisMovimentos = partidaXadrez.possiveisMovimentos(origem);
-			IU.limparTela();
-			IU.imprimirTabuleiro(partidaXadrez.pegarPeças(), possiveisMovimentos);
-					
-			System.out.println();
-			System.out.print("Target: ");
-			PosicaoXadrez destino = IU.lerPosicaoXadrez(sc);
-			
-			PeçaXadrez peçaCapturada = partidaXadrez.realizarMovimentoXadrez(origem, destino);
-			
-			if (peçaCapturada != null) {
-				capturadas.add(peçaCapturada);
-			}
-			}
-			catch (ChessException e) {
+				IU.limparTela();
+				IU.imprimirPartida(partidaXadrez, capturadas);
+				System.out.println();
+				System.out.print("Origin: ");
+				PosicaoXadrez origem = IU.lerPosicaoXadrez(sc);
+
+				boolean[][] possiveisMovimentos = partidaXadrez.possiveisMovimentos(origem);
+				IU.limparTela();
+				IU.imprimirTabuleiro(partidaXadrez.pegarPeças(), possiveisMovimentos);
+
+				System.out.println();
+				System.out.print("Target: ");
+				PosicaoXadrez destino = IU.lerPosicaoXadrez(sc);
+
+				PeçaXadrez peçaCapturada = partidaXadrez.realizarMovimentoXadrez(origem, destino);
+
+				if (peçaCapturada != null) {
+					capturadas.add(peçaCapturada);
+				}
+			} catch (ChessException e) {
 				System.out.println(e.getMessage());
 				sc.nextLine();
-			}
-			catch (InputMismatchException e) {
+			} catch (InputMismatchException e) {
 				System.out.println(e.getMessage());
 				sc.nextLine();
 			}
 		}
+		
+		IU.limparTela();
+		IU.imprimirPartida(partidaXadrez, capturadas);
 
 	}
-
+	
 }
