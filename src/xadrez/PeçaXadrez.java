@@ -7,6 +7,7 @@ import jogodetabuleiro.Tabuleiro;
 public abstract class PeçaXadrez extends Peça {
 
 	private Cor cor;
+	private int contadorMovimentos;
 
 	public PeçaXadrez(Tabuleiro tabuleiro, Cor cor) {
 		super(tabuleiro);
@@ -15,6 +16,18 @@ public abstract class PeçaXadrez extends Peça {
 
 	public Cor getCor() {
 		return cor;
+	}
+	
+	public int getContadorMovimentos() {
+		return contadorMovimentos;
+	}
+	
+	public void aumentarContadorMovimentos() {
+		contadorMovimentos++;
+	}
+	
+	public void diminuirContadorMovimentos() {
+		contadorMovimentos--;
 	}
 	
 	public PosicaoXadrez getPosicaoXadrez() {
