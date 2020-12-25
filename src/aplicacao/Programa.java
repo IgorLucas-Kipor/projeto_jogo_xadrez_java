@@ -41,6 +41,12 @@ public class Programa {
 				if (peçaCapturada != null) {
 					capturadas.add(peçaCapturada);
 				}
+				
+				if (partidaXadrez.getPromovida() != null) {
+					System.out.println("Enter piece for promotion. Q for Queen, B for Bishop, N for Knight, R for Rook: ");
+					String tipo = sc.nextLine();
+					partidaXadrez.substituirPeçaPromovida(tipo);
+				}
 			} catch (ChessException e) {
 				System.out.println(e.getMessage());
 				sc.nextLine();
