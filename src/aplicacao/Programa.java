@@ -1,5 +1,6 @@
 package aplicacao;
 
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
@@ -44,7 +45,12 @@ public class Programa {
 				
 				if (partidaXadrez.getPromovida() != null) {
 					System.out.println("Enter piece for promotion. Q for Queen, B for Bishop, N for Knight, R for Rook: ");
-					String tipo = sc.nextLine();
+					String tipo = sc.nextLine().toUpperCase();
+					
+					while (!tipo.equals("B") && !tipo.equals("Q") && !tipo.equals("N") && !tipo.equals("R")) {
+						System.out.println("Invalid value. Try again: ");
+						tipo = sc.nextLine().toUpperCase();
+					}
 					partidaXadrez.substituirPeçaPromovida(tipo);
 				}
 			} catch (ChessException e) {
