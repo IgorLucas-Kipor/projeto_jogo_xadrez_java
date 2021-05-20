@@ -6,12 +6,12 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
-import xadrez.Cor;
-import xadrez.PartidaXadrez;
-import xadrez.PeçaXadrez;
-import xadrez.PosicaoXadrez;
+import xadrez.Color;
+import xadrez.ChessMatch;
+import xadrez.ChessPiece;
+import xadrez.ChessPosition;
 
-public class IU {
+public class UI {
 
 	// https://stackoverflow.com/questions/5762491/how-to-print-color-in-console-using-system-out-println
 
@@ -35,88 +35,88 @@ public class IU {
 	public static final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
 
 	// https://stackoverflow.com/questions/2979383/java-clear-the-console
-	public static void limparTela() {
+	public static void cleanScreen() {
 		System.out.print("\033[H\033[2J");
 		System.out.flush();
 	}
 
-	public static PosicaoXadrez lerPosicaoXadrez(Scanner sc) {
+	public static ChessPosition readChessPosition(Scanner sc) {
 		try {
 			String s = sc.nextLine();
-			char coluna = s.charAt(0);
-			int linha = Integer.parseInt(s.substring(1));
-			return new PosicaoXadrez(coluna, linha);
+			char column = s.charAt(0);
+			int line = Integer.parseInt(s.substring(1));
+			return new ChessPosition(column, line);
 		} catch (RuntimeException e) {
 			throw new InputMismatchException("Error reading chess position: valid values go from a1 to h8.");
 		}
 	}
 	
-	public static void imprimirPartida(PartidaXadrez partidaXadrez, List<PeçaXadrez> capturadas) {
-		imprimirTabuleiro(partidaXadrez.pegarPeças());
+	public static void printMatch(ChessMatch chessMatch, List<ChessPiece> captured) {
+		printBoard(chessMatch.getPieces());
 		System.out.println();
-		imprimirPeçasCapturadas(capturadas);
+		printCapturedPieces(captured);
 		System.out.println();
-		System.out.println("Turn: " + partidaXadrez.getTurno());
-		if (!partidaXadrez.getXequeMate()) {
-			System.out.println("Waiting player: " + partidaXadrez.getJogadorAtual());
-			if (partidaXadrez.getXeque()) {
+		System.out.println("Turn: " + chessMatch.getTurn());
+		if (!chessMatch.getCheckmate()) {
+			System.out.println("Waiting player: " + chessMatch.getCurrentPlayer());
+			if (chessMatch.getCheck()) {
 				System.out.println("CHECK!");
 			}	
 		} else {
 			System.out.println("CHECKMATE!");
-			System.out.println("Winner: "+ partidaXadrez.getJogadorAtual());
+			System.out.println("Winner: "+ chessMatch.getCurrentPlayer());
 		}
 	}
 
-	public static void imprimirTabuleiro(PeçaXadrez[][] peças) {
-		for (int i = 0; i < peças.length; i++) {
+	public static void printBoard(ChessPiece[][] pieces) {
+		for (int i = 0; i < pieces.length; i++) {
 			System.out.print((8 - i) + " ");
-			for (int j = 0; j < peças.length; j++) {
-				imprimirPeça(peças[i][j], false);
+			for (int j = 0; j < pieces.length; j++) {
+				printPiece(pieces[i][j], false);
 			}
 			System.out.println();
 		}
 		System.out.println("  a b c d e f g h");
 	}
 	
-	public static void imprimirTabuleiro(PeçaXadrez[][] peças, boolean[][] possiveisMovimentos) {
-		for (int i = 0; i < peças.length; i++) {
+	public static void printBoard(ChessPiece[][] pieces, boolean[][] possibleMoves) {
+		for (int i = 0; i < pieces.length; i++) {
 			System.out.print((8 - i) + " ");
-			for (int j = 0; j < peças.length; j++) {
-				imprimirPeça(peças[i][j], possiveisMovimentos[i][j]);
+			for (int j = 0; j < pieces.length; j++) {
+				printPiece(pieces[i][j], possibleMoves[i][j]);
 			}
 			System.out.println();
 		}
 		System.out.println("  a b c d e f g h");
 	}
 
-	private static void imprimirPeça(PeçaXadrez peça, boolean fundo) {
-		if (fundo) {
+	private static void printPiece(ChessPiece piece, boolean background) {
+		if (background) {
 			System.out.print(ANSI_GREEN_BACKGROUND);
 		}
-		if (peça == null) {
+		if (piece == null) {
 			System.out.print("-" + ANSI_RESET);
 		} else {
-			if (peça.getCor() == Cor.BRANCO) {
-				System.out.print(ANSI_WHITE + peça + ANSI_RESET);
+			if (piece.getColor() == Color.WHITE) {
+				System.out.print(ANSI_WHITE + piece + ANSI_RESET);
 			} else {
-				System.out.print(ANSI_YELLOW + peça + ANSI_RESET);
+				System.out.print(ANSI_YELLOW + piece + ANSI_RESET);
 			}
 		}
 		System.out.print(" ");
 	}
 	
-	private static void imprimirPeçasCapturadas(List<PeçaXadrez> capturada) {
-		List<PeçaXadrez> branca = capturada.stream().filter(x -> x.getCor() == Cor.BRANCO).collect(Collectors.toList());
-		List<PeçaXadrez> preta = capturada.stream().filter(x -> x.getCor() == Cor.PRETO).collect(Collectors.toList());
+	private static void printCapturedPieces(List<ChessPiece> captured) {
+		List<ChessPiece> white = captured.stream().filter(x -> x.getColor() == Color.WHITE).collect(Collectors.toList());
+		List<ChessPiece> black = captured.stream().filter(x -> x.getColor() == Color.BLACK).collect(Collectors.toList());
 		System.out.println("Captured pieces: ");
 		System.out.print("White: ");
 		System.out.println(ANSI_WHITE);
-		System.out.println(Arrays.toString(branca.toArray()));
+		System.out.println(Arrays.toString(white.toArray()));
 		System.out.println(ANSI_RESET);
 		System.out.print("Black: ");
 		System.out.println(ANSI_YELLOW);
-		System.out.println(Arrays.toString(preta.toArray()));
+		System.out.println(Arrays.toString(black.toArray()));
 		System.out.println(ANSI_RESET);
 	}
 
